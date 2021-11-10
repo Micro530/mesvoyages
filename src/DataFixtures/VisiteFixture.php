@@ -20,7 +20,7 @@ class VisiteFixture extends Fixture
                     ->setPays($faker->country)
                     ->setDatecreation($faker->dateTime)
                     ->setTempmin($faker->numberBetween(-20, 10))
-                    ->setTempmin($faker->numberBetween(10, 40))
+                    ->setTempmax($faker->numberBetween(10, 40))
                     ->setNote($faker->numberBetween(0, 20))
                     ->setAvis($faker->sentence(4, true));
             $manager->persist($visite);
