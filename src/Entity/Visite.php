@@ -3,12 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\VisiteRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=VisiteRepository::class)
+ * @Vich\Uploadable
  */
 class Visite
 {
@@ -58,6 +64,26 @@ class Visite
      * @ORM\ManyToMany(targetEntity=Environnement::class)
      */
     private $environnements;
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="visites", fileNameProperty="imageName")
+     * @Assert\Image{mimeTypes="image/jpeg"}
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string|null
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $uploaded_at;
 
     public function __construct()
     {
@@ -93,7 +119,7 @@ class Visite
         return $this;
     }
 
-    public function getDatecreation(): ?\DateTimeInterface
+    public function getDatecreation(): ?DateTimeInterface
     {
         return $this->datecreation;
     }
@@ -103,7 +129,7 @@ class Visite
         return $this->datecreation->format('d/m/y');
     }
 
-    public function setDatecreation(?\DateTimeInterface $datecreation): self
+    public function setDatecreation(?DateTimeInterface $datecreation): self
     {
         $this->datecreation = $datecreation;
 
@@ -181,4 +207,39 @@ class Visite
 
         return $this;
     }
+    function getImageFile(): ?File {
+        return $this->imageFile;
+    }
+
+    function getImageName(): ?string {
+        return $this->imageName;
+    }
+
+    function setImageFile(?File $imageFile): self {
+        $this->imageFile = $imageFile;
+        if($this->imageFile instanceof \Symfony\Component\HttpFoundation\File\UploadedFile)
+        {
+            $this->uploaded_at = new \DateTime('now'); 
+        }
+        return $this;
+    }
+
+    function setImageName(?string $imageName): self {
+        $this->imageName = $imageName;
+        return $this;
+    }
+
+    public function getUploadedAt(): ?\DateTimeImmutable
+    {
+        return $this->uploaded_at;
+    }
+
+    public function setUploadedAt(?\DateTimeImmutable $uploaded_at): self
+    {
+        $this->uploaded_at = $uploaded_at;
+
+        return $this;
+    }
+
+
 }
