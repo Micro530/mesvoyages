@@ -1,4 +1,100 @@
 {% extends "basefront.html.twig" %}
 {% block body %}
-<h1>Page d'accueil</h1>
+    <div class="row mt-3">
+        <div class="col">
+            <h2>Bienvenue sur mon site personnel de présentation de mes voyages.</h2>
+            <p>Dans la partie <a href="{{ path('voyages') }}">Voyages</a>, vous pouvez voir la liste des visite que j'ai faites dans différents villes.</p>
+            <p>Enfin vous pouvez me contacter avec le formulaire de <a href="{{ path('contact') }}">Contact</a>.</p>
+            <p>Voici mes deux deniers voyages :{{ visites[0].ville() }}</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col" mt-6>
+            <p>{{ visites[0].datecreationstring }}</p>
+            <h3 class="text-primary mt-1">
+                <a href="{{ path('voyages.showone', {id:visites[0].id}) }}">{{ visites[0].ville }}</a>
+            </h3>
+            <p>{{ visites[0].pays }}</p>
+            {% if visites[0].note>=10 %}
+                <p class="text-success mt-1">{{ visites[0].note }}/20</p>
+            {% else %}
+                <p class="text-danger mt-1">{{ visites[0].note }}/20</p>
+            {% endif %}
+            <p class="mt-5">t° entre {{ visites[0].tempmin }}° et {{ visites[0].tempmax }}°</p>
+            <p class="mt-1"><strong>Environnements :</strong><br/>
+                {% for environnement in visites[0].environnements %}
+                    {{ environnement.nom }}
+                {% endfor %}
+            </p>
+        </div>    
+        <div class="col">
+            <!-- emplacement photo -->
+            {% if visites[0].imagename %}
+                <img src="{{ app.request.getBasePath()~vich_uploader_asset(visites[1], 'imageFile') }}" 
+                     class="card-img-top" style="with:100%;height:auto;">
+            {% endif %}
+        </div>
+        <div class="col" md-6>
+            <p>{{ visites[1].datecreationstring }}</p>
+            <h3 class="text-primary mt-1">
+                <a href="{{ path('voyages.showone', {id:visites[1].id}) }}">{{ visites[1].ville }}</a>
+            </h3>
+            <p>{{ visites[1].pays }}</p>
+            {% if visites[1].note>=10 %}
+                <p class="text-success mt-1">{{ visites[1].note }}/20</p>
+            {% else %}
+                <p class="text-danger mt-1">{{ visites[1].note }}/20</p>
+            {% endif %}
+            <p class="mt-5">t° entre {{ visites[1].tempmin }}° et {{ visites[1].tempmax }}°</p>
+            <p class="mt-1"><strong>Environnements :</strong><br/>
+                {% for environnement in visites[1].environnements %}
+                    {{ environnement.nom }}
+                {% endfor %}
+            </p>
+        </div>    
+        <div class="col">
+            <!-- emplacement photo -->
+            {% if visites[1].imagename %}
+                <img src="{{ app.request.getBasePath()~vich_uploader_asset(visites[1], 'imageFile') }}" 
+                     class="card-img-top" style="with:100%;height:auto;">
+            {% endif %}
+        </div>
+    </div>
+    
+{#    <table>
+        <tr>
+            {% for visite in visites %}
+                <td style="vertical-align: text-top; width: 50%">
+                    <div class="row mt-3 mr-3">
+                        <div class="col">
+                            <p>{{ visite.datecreationstring }}</p>
+                            <h3 class="text-primary mt-1">
+                                <a href="{{ path('voyages.showone', {id:visite.id}) }}">{{ visite.ville }}</a>
+                            </h3>
+                            <p>{{ visite.pays }}</p>
+                            {% if visite.note>=10 %}
+                                <p class="text-success mt-1">{{ visite.note }}/20</p>
+                            {% else %}
+                                <p class="text-danger mt-1">{{ visite.note }}/20</p>
+                            {% endif %}
+                            <p class="mt-5">t° entre {{ visite.tempmin }}° et {{ visite.tempmax }}°</p>
+                            <p class="mt-1"><strong>Environnements :</strong><br/>
+                                {% for environnement in visite.environnements %}
+                                    {{ environnement.nom }}
+                                {% endfor %}
+                            </p>
+                        </div>    
+                        <div class="col">
+                            <!-- emplacement photo -->
+                            {% if visite.imagename %}
+                                <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}" 
+                                     class="card-img-top" style="with:100%;height:auto;">
+                            {% endif %}
+                        </div>
+                    </div>                    
+                </td>
+            {% endfor %}    
+        </tr>
+    </table>
+#}
 {% endblock %}
