@@ -36,11 +36,13 @@ class Visite
     private $pays;
 
     /**
+     * @Assert\Range(max="now")
      * @ORM\Column(type="date", nullable=true)
      */
     private $datecreation;
 
     /**
+     * @Assert\Range(min = 0, max = 20)
      * @ORM\Column(type="integer", nullable=true)
      */
     private $note;
@@ -54,8 +56,9 @@ class Visite
      * @ORM\Column(type="integer", nullable=true)
      */
     private $tempmin;
-
+    
     /**
+     * @Assert\GreaterThan(propertyPath="tempmin")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $tempmax;
@@ -126,7 +129,8 @@ class Visite
     
     public function getDatecreationString(): string
     {
-        return $this->datecreation->format('d/m/y');
+        //return $this->datecreation->format('dd/mm/yyyy');
+        return $this->datecreation->format('d/m/Y');
     }
 
     public function setDatecreation(?DateTimeInterface $datecreation): self
