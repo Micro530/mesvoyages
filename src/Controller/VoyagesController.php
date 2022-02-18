@@ -61,8 +61,12 @@ class VoyagesController extends AbstractController{
         if($this->isCsrfTokenValid('filtre_'.$champ, $request->get('_token')))
         {
             $valeur = $request->get("recherche");
-        $visites = $this->repository->findByEqualValue($champ, $valeur);
-        return $this->render("pages/voyages.html.twig", [
+            if($champ == "note"){
+                $visites = $this->repository->findByEqualOrSupValue($champ, $valeur);
+            }else{
+                $visites = $this->repository->findByEqualValue($champ, $valeur);
+            }
+            return $this->render("pages/voyages.html.twig", [
             'visites' => $visites
         ]);
         }

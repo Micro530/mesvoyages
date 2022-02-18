@@ -57,6 +57,29 @@ class VisiteRepository extends ServiceEntityRepository
         }
     }
     /**
+     * Enregistrement égale ou suppérieur à une valeur ou à tous les enregistrements sur la date en DESC si vide
+     * @param type $champ
+     * @param type $valeur
+     * @return Visite[]
+     */
+    public function findByEqualOrSupValue($champ, $valeur) : array 
+    {
+        if(!$valeur=="")
+        {
+            return $this->createQueryBuilder('v')
+                    ->where('v.'.$champ.'>=:valeur')
+                    ->setParameter('valeur',$valeur)
+                    ->orderBy('v.datecreation','DESC')
+                    ->getQuery()
+                    ->getResult();
+        }else{
+            return $this->createQueryBuilder('v')
+                    ->orderBy('v.datecreation','DESC')
+                    ->getQuery()
+                    ->getResult();
+        }
+    }
+    /**
      * Retourne les n visites les plus récentes
      * @param type $nb
      * @return Visite[]

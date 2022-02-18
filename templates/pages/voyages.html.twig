@@ -31,6 +31,13 @@
                     Note
                     <a href="{{ path('voyages.sort', {champ:'note', ordre:'ASC'}) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('voyages.sort', {champ:'note', ordre:'DESC'}) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">></a>
+                    <form class="form-inline mt-1" methode="POST" action="{{ path('voyages.findallequal', {champ:'note'}) }}">
+                        <div class="form-group mr-1 mb-2">
+                            <input type="number" min="0" max="20" class="sm" name="recherche">
+                        </div>
+                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_note') }}">
+                        <button type="submit" class="btn btn-primary mb-2 btn-sm">filtrer</button>
+                    </form>
                 </th>
                 <th class="text-center align-top" scope="col">
                     Date
